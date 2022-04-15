@@ -78,13 +78,44 @@ class imageEdit:
 
 
 
-    def crop(self):
-        pass
+    # def resize(self):
+    #     w = float(input("Enter scaling factor for width: "))
+    #     h = float(input("Enter scaling factor for height: "))
+
+    #     # self.outp = self.inp[::h,::w]
+    
+    #     if w>1 and h>1:
+    #         # upscaling width and height
+    #         self.outp = self.inp.repeat(h,axis=0).repeat(w,axis=1)
+    #     elif w>1 and h<=1:
+    #         # upscaling width, downscaling height
+    #         self.outp = self.inp[::1,::int(w)]
+    #         self.outp = self.outp.repeat(h,axis=0).repeat(1,axis=1)
+    #     elif w<=1 and h>1:
+    #         # downscaling width, upscaling height
+    #         self.outp = self.inp[::int(h),::1]
+    #         self.outp = self.outp.repeat(w,axis=1).repeat(1,axis=0)
+    #     else:
+    #         # downscaling width and height
+    #         self.outp = self.inp[::int(1/h),::int(1/w)]
+
+
+            
+    def upscale(self):
+        f = int(input("Enter scaling factor: "))
+        self.outp = self.inp.repeat(f,axis=0).repeat(f,axis=1)
+
+
+    def downscale(self):
+        f = int(input("Enter downscale factor: "))
+        self.outp = self.inp[::f,::f]
+        
+
 
 
 
     def flip(self):
-        pass
+        self.outp = np.fliplr(self.inp)
 
 
 
@@ -138,7 +169,6 @@ class imageEdit:
         # stating that the RGB values are floating point/ int32 etc and that they 
         # are supposed to be of type uint8
         self.outp = self.outp.astype(np.uint8)
-
 
 
 

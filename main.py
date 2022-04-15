@@ -36,14 +36,24 @@ def main():
                         os.system(f"start {sys.argv[3]}")
                         
 
-                    elif sys.argv[1]=="crop":
+                    elif sys.argv[1]=="upscale":
                         obj = imageEdit(sys.argv[2],sys.argv[3])
                         obj.loadImg()
-                        obj.crop()
+                        obj.upscale()
                         print("Saving image")
-                        obj.writeImg('cropped')
+                        obj.writeImg('upscaled')
                         print("Done")
                         os.system(f"start {sys.argv[3]}")
+
+                    elif sys.argv[1]=="downscale":
+                        obj = imageEdit(sys.argv[2],sys.argv[3])
+                        obj.loadImg()
+                        obj.downscale()
+                        print("Saving image")
+                        obj.writeImg('downscaled')
+                        print("Done")
+                        os.system(f"start {sys.argv[3]}")
+
 
                     elif sys.argv[1]=="flip":
                         print("Flipping image")

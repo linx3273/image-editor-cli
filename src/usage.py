@@ -6,7 +6,8 @@ Option:
     --help      -h      Loads this message
     detect-edges        Perform edge detection on given image
     grayscale           Convert image to grayscale
-    crop                To crop the image based on provided coordinates
+    upscale             Upscale image
+    downscale           Downscale image
     flip                Flips the image
     rotate              Rotate image by given angle
     invert-color            Invert colors of the image
