@@ -1,0 +1,5 @@
+https://www.tutorialspoint.com/dip/grayscale_to_rgb_conversion.htm#:~:text=You%20just%20have%20to%20take,Its%20done%20in%20this%20way.
+
+https://e2eml.school/images_to_numbers.html
+
+https://www.kdnuggets.com/2019/12/convert-rgb-image-grayscale.html
