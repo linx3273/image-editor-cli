@@ -1,26 +1,42 @@
 import sys
 import src.usage as usage
+from src.imageEdit import imageEdit
 
 
 def main():
     if len(sys.argv)==1:
         print(usage.inf())
     else:
-        if len(sys.argv)>2:
+        if len(sys.argv)>1:
             if sys.argv[1]=="--help" or sys.argv[1]=="-h":
-                pass
-            elif sys.argv[1]=="edges":
-                pass
-            elif sys.argv[1]=="crop":
-                pass
-            elif sys.argv[1]=="flip":
-                pass
-            elif sys.argv[1]=="rotate":
-                pass
-            elif sys.argv[1]=="negative":
-                pass
-        else:
-            pass
+                print(usage.inf())
+            else:
+                if len(sys.argv)!=4:
+                    print("Missing Arguments. Run 'python main.py --help'")
+                else:
+                    if sys.argv[1]=="detect-edges":
+                        obj = imageEdit(sys.argv[2],sys.argv[3])
+                        obj.loadImg()
+                        obj.edgeDetection()
+                        obj.writeImg()
+
+                    elif sys.argv[1]=="grayscale":
+                        obj = imageEdit(sys.argv[2],sys.argv[3])
+                        obj.loadImg()
+                        obj.grayscale()
+                        obj.writeImg()
+
+                    elif sys.argv[1]=="crop":
+                        obj = imageEdit(sys.argv[2],sys.argv[3])
+                    elif sys.argv[1]=="flip":
+                        pass
+                    elif sys.argv[1]=="rotate":
+                        pass
+                    elif sys.argv[1]=="invert-color":
+                        pass
+                    else:
+                        print("Invalid arguments. Run 'python main.py --help'")
+
 
 if __name__=="__main__":
     main()
