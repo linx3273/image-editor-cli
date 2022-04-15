@@ -7,7 +7,7 @@ from pathlib import Path
 class imageEdit:
     def __init__(self,src,dest):
         self.src = Path(src).resolve()
-        self.dest = Path(str(Path(dest)) + '/' + str(Path(src).name)).resolve()
+        self.dest = Path(dest).resolve()
         self.inp = None
         self.outp = None
 
@@ -18,7 +18,8 @@ class imageEdit:
 
 
 
-    def writeImg(self):
+    def writeImg(self,format):
+        self.dest = Path(str(self.dest) + '/' + str(self.src.stem) + '_' + f'{format}' + str(self.src.suffix)).resolve()
         mpimg.imsave(self.dest,self.outp)
 
 
@@ -86,4 +87,12 @@ class imageEdit:
 
 
     def invertColor(self):
-        pass
+        self.outp = self.inp.copy()
+
+        for i in range(len(self.inp)):
+            for j in range(len(self.inp[i])):
+                for k in range(len(self.inp[i][j])):
+                    self.outp[i][j][k] = 255 - self.outp[i][j][k]
+
+
+        

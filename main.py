@@ -18,13 +18,13 @@ def main():
                         obj = imageEdit(sys.argv[2],sys.argv[3])
                         obj.loadImg()
                         obj.edgeDetection()
-                        obj.writeImg()
+                        obj.writeImg('edge')
 
                     elif sys.argv[1]=="grayscale":
                         obj = imageEdit(sys.argv[2],sys.argv[3])
                         obj.loadImg()
                         obj.grayscale()
-                        obj.writeImg()
+                        obj.writeImg('grayscale')
 
                     elif sys.argv[1]=="crop":
                         obj = imageEdit(sys.argv[2],sys.argv[3])
@@ -33,7 +33,10 @@ def main():
                     elif sys.argv[1]=="rotate":
                         pass
                     elif sys.argv[1]=="invert-color":
-                        pass
+                        obj = imageEdit(sys.argv[2],sys.argv[3])
+                        obj.loadImg()
+                        obj.invertColor()
+                        obj.writeImg('negative')
                     else:
                         print("Invalid arguments. Run 'python main.py --help'")
 
