@@ -1,6 +1,7 @@
 import sys
 import src.usage as usage
 from src.imageEdit import imageEdit
+import os
 
 
 def main():
@@ -15,28 +16,65 @@ def main():
                     print("Missing Arguments. Run 'python main.py --help'")
                 else:
                     if sys.argv[1]=="detect-edges":
+                        print("Detecting edges on image")
                         obj = imageEdit(sys.argv[2],sys.argv[3])
                         obj.loadImg()
                         obj.edgeDetection()
+                        print("Saving image")
                         obj.writeImg('edge')
+                        print("Done")
+                        os.system(f"start {sys.argv[3]}")
 
                     elif sys.argv[1]=="grayscale":
+                        print("Converting image to grayscale")
                         obj = imageEdit(sys.argv[2],sys.argv[3])
                         obj.loadImg()
                         obj.grayscale()
+                        print("Saving image")
                         obj.writeImg('grayscale')
+                        print("Done")
+                        os.system(f"start {sys.argv[3]}")
+                        
 
                     elif sys.argv[1]=="crop":
                         obj = imageEdit(sys.argv[2],sys.argv[3])
+                        obj.loadImg()
+                        obj.crop()
+                        print("Saving image")
+                        obj.writeImg('cropped')
+                        print("Done")
+                        os.system(f"start {sys.argv[3]}")
+
                     elif sys.argv[1]=="flip":
-                        pass
+                        print("Flipping image")
+                        obj = imageEdit(sys.argv[2],sys.argv[3])
+                        obj.loadImg()
+                        obj.flip()
+                        print("Saving image")
+                        obj.writeImg('flipped')
+                        print("Done")
+                        os.system(f"start {sys.argv[3]}")
+
                     elif sys.argv[1]=="rotate":
-                        pass
+                        obj = imageEdit(sys.argv[2],sys.argv[3])
+                        obj.loadImg()
+                        obj.rotate()
+                        print("Saving image")
+                        obj.writeImg('rotated')
+                        print("Done")
+                        os.system(f"start {sys.argv[3]}")
+                        
                     elif sys.argv[1]=="invert-color":
+                        print("Inverting color of image")
                         obj = imageEdit(sys.argv[2],sys.argv[3])
                         obj.loadImg()
                         obj.invertColor()
+                        print("Saving image")
                         obj.writeImg('negative')
+                        print("Done")
+                        os.system(f"start {sys.argv[3]}")
+
+
                     else:
                         print("Invalid arguments. Run 'python main.py --help'")
 

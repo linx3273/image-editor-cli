@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.image as mpimg
+import matplotlib.pyplot as plt
 from pathlib import Path
 
 
@@ -21,6 +22,12 @@ class imageEdit:
     def writeImg(self,format):
         self.dest = Path(str(self.dest) + '/' + str(self.src.stem) + '_' + f'{format}' + str(self.src.suffix)).resolve()
         mpimg.imsave(self.dest,self.outp)
+
+
+
+    def showOutput(self):
+        plt.imshow(self.outp)
+        plt.show()
 
 
 
@@ -47,7 +54,6 @@ class imageEdit:
         edges_img=edges_img/edges_img.max()
 
         self.outp = edges_img
-
 
 
 
