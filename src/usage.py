@@ -10,7 +10,8 @@ Option:
     downscale           Downscale image
     flip                Flips the image
     rotate              Rotate image by given angle
-    invert-color            Invert colors of the image
+    invert-color        Invert colors of the image
+    contrast            To adjust contrast of image
 
 
 src - source of image

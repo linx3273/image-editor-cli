@@ -1,8 +1,9 @@
+from audioop import mul
 import numpy as np
 import matplotlib.image as mpimg
 import matplotlib.pyplot as plt
 from pathlib import Path
-
+import sys
 
 
 class imageEdit:
@@ -54,7 +55,9 @@ class imageEdit:
                 
         edges_img = edges_img/edges_img.max()
 
-        self.outp = edges_img
+        self.outp = edges_img.astype(np.uint8)
+
+        return self.outp
 
 
 
@@ -78,26 +81,26 @@ class imageEdit:
 
 
 
-    # def resize(self):
-    #     w = float(input("Enter scaling factor for width: "))
-    #     h = float(input("Enter scaling factor for height: "))
+    def resize(self):
+        w = float(input("Enter scaling factor for width: "))
+        h = float(input("Enter scaling factor for height: "))
 
-    #     # self.outp = self.inp[::h,::w]
+        # self.outp = self.inp[::h,::w]
     
-    #     if w>1 and h>1:
-    #         # upscaling width and height
-    #         self.outp = self.inp.repeat(h,axis=0).repeat(w,axis=1)
-    #     elif w>1 and h<=1:
-    #         # upscaling width, downscaling height
-    #         self.outp = self.inp[::1,::int(w)]
-    #         self.outp = self.outp.repeat(h,axis=0).repeat(1,axis=1)
-    #     elif w<=1 and h>1:
-    #         # downscaling width, upscaling height
-    #         self.outp = self.inp[::int(h),::1]
-    #         self.outp = self.outp.repeat(w,axis=1).repeat(1,axis=0)
-    #     else:
-    #         # downscaling width and height
-    #         self.outp = self.inp[::int(1/h),::int(1/w)]
+        if w>1 and h>1:
+            # upscaling width and height
+            self.outp = self.inp.repeat(h,axis=0).repeat(w,axis=1)
+        elif w>1 and h<=1:
+            # upscaling width, downscaling height
+            self.outp = self.inp[::1,::int(w)]
+            self.outp = self.outp.repeat(h,axis=0).repeat(1,axis=1)
+        elif w<=1 and h>1:
+            # downscaling width, upscaling height
+            self.outp = self.inp[::int(h),::1]
+            self.outp = self.outp.repeat(w,axis=1).repeat(1,axis=0)
+        else:
+            # downscaling width and height
+            self.outp = self.inp[::int(1/h),::int(1/w)]
 
 
             
@@ -174,11 +177,32 @@ class imageEdit:
 
     def invertColor(self):
         self.outp = self.inp.copy()
+        self.outp = ~self.outp
 
-        for i in range(len(self.inp)):
-            for j in range(len(self.inp[i])):
-                for k in range(len(self.inp[i][j])):
-                    self.outp[i][j][k] = 255 - self.outp[i][j][k]
+        # for i in range(len(self.inp)):
+        #     for j in range(len(self.inp[i])):
+        #         self.outp[i][j][0] = 255 - self.outp[i][j][0]
+        #         self.outp[i][j][1] = 255 - self.outp[i][j][1]
+        #         self.outp[i][j][2] = 255 - self.outp[i][j][2]
+
+
+    def contrast(self):
+        # pixvals = ((self.inp - self.inp.min)/(self.inp.max() - self.inp.min()))*255
+        percentage = int(input("Enter contrast percentage: "))
+        multiplier = int(percentage/100 * 255)
+
+        minval = np.percentile(self.inp, 2)
+        maxval = np.percentile(self.inp, 98)
+
+        pixvals = np.clip(self.inp, minval, maxval)
+        pixvals = ((pixvals - minval) / (maxval - minval))*multiplier
+
+        self.outp = pixvals.astype(np.uint8)
+
+
+        
+      
+
 
 
         

@@ -84,6 +84,16 @@ def main():
                         print("Done")
                         os.system(f"start {sys.argv[3]}")
 
+                    elif sys.argv[1]=="contrast":
+                        obj = imageEdit(sys.argv[2],sys.argv[3])
+                        print("Generating sketch")
+                        obj.loadImg()
+                        obj.contrast()
+                        print("Saving image")
+                        obj.writeImg("contrast")
+                        print("Done")
+                        os.system(f"start {sys.argv[3]}")
+
 
                     else:
                         print("Invalid arguments. Run 'python main.py --help'")
