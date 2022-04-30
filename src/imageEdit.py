@@ -12,10 +12,8 @@ class imageEdit:
         self.outp = None
 
 
-
     def loadImg(self):
         self.inp = mpimg.imread(self.src)
-
 
 
     def writeImg(self,format):
@@ -56,7 +54,6 @@ class imageEdit:
         return self.outp
 
 
-
     def grayscale(self):
         self.outp = np.zeros(self.inp.shape)
         R = np.array(self.inp[:, :, 0])
@@ -76,52 +73,54 @@ class imageEdit:
         return self.outp
 
 
+    # def resize(self):
+    #     w = float(input("Enter scaling factor for width: "))
+    #     h = float(input("Enter scaling factor for height: "))
 
-    def resize(self):
-        w = float(input("Enter scaling factor for width: "))
-        h = float(input("Enter scaling factor for height: "))
-
-        # self.outp = self.inp[::h,::w]
+    #     # self.outp = self.inp[::h,::w]
     
-        if w>1 and h>1:
-            # upscaling width and height
-            self.outp = self.inp.repeat(h,axis=0).repeat(w,axis=1)
-        elif w>1 and h<=1:
-            # upscaling width, downscaling height
-            self.outp = self.inp[::1,::int(w)]
-            self.outp = self.outp.repeat(h,axis=0).repeat(1,axis=1)
-        elif w<=1 and h>1:
-            # downscaling width, upscaling height
-            self.outp = self.inp[::int(h),::1]
-            self.outp = self.outp.repeat(w,axis=1).repeat(1,axis=0)
-        else:
-            # downscaling width and height
-            self.outp = self.inp[::int(1/h),::int(1/w)]
+    #     if w>1 and h>1:
+    #         # upscaling width and height
+    #         self.outp = self.inp.repeat(h,axis=0).repeat(w,axis=1)
+    #     elif w>1 and h<=1:
+    #         # upscaling width, downscaling height
+    #         self.outp = self.inp[::1,::int(w)]
+    #         self.outp = self.outp.repeat(h,axis=0).repeat(1,axis=1)
+    #     elif w<=1 and h>1:
+    #         # downscaling width, upscaling height
+    #         self.outp = self.inp[::int(h),::1]
+    #         self.outp = self.outp.repeat(w,axis=1).repeat(1,axis=0)
+    #     else:
+    #         # downscaling width and height
+    #         self.outp = self.inp[::int(1/h),::int(1/w)]
 
+    #     return self.outp
 
             
     def upscale(self):
-        f = int(input("Enter scaling factor: "))
-        self.outp = self.inp.repeat(f,axis=0).repeat(f,axis=1)
+        self.factor = int(input("Enter scaling factor: "))
+        self.outp = self.inp.repeat(self.factor,axis=0).repeat(self.factor,axis=1)
+
+        return self.outp
 
 
     def downscale(self):
-        f = int(input("Enter downscale factor: "))
-        self.outp = self.inp[::f,::f]
+        self.factor = int(input("Enter downscale factor: "))
+        self.outp = self.inp[::self.factor,::self.factor]
+
+        return self.outp
         
-
-
-
 
     def flip(self):
         self.outp = np.fliplr(self.inp)
 
+        self.outp
 
 
     def rotate(self):
-        ang = int(input("Enter angle in degrees: "))
-        SIN = np.sin(ang*np.pi/180)  # obtaining sin value
-        COS = np.cos(ang*np.pi/180)  # obtaining cos value
+        self.ang = int(input("Enter angle in degrees: "))
+        SIN = np.sin(self.ang*np.pi/180)  # obtaining sin value
+        COS = np.cos(self.ang*np.pi/180)  # obtaining cos value
 
         # defining height and width of the image
         height,width= self.inp.shape[0],self.inp.shape[1]
@@ -143,7 +142,6 @@ class imageEdit:
         # calcualted wrt new dimensions
         new_centre_height = round(((new_height+1)/2)-1)
         new_centre_width = round(((new_width+1)/2)-1)
-
 
         for i in range(height):
             for j in range(width):
@@ -169,6 +167,7 @@ class imageEdit:
         # are supposed to be of type uint8
         self.outp = self.outp.astype(np.uint8)
 
+        return self.outp
 
 
     def invertColor(self):
@@ -186,40 +185,58 @@ class imageEdit:
     def contrast(self):
         # pixvals = ((self.inp - self.inp.min)/(self.inp.max() - self.inp.min()))*255
         percentage = int(input("Enter contrast percentage: "))
-        multiplier = int(percentage/100 * 255)
+        self.multiplier = int(percentage/100 * 255)
 
         minval = np.percentile(self.inp, 2)
         maxval = np.percentile(self.inp, 98)
 
         pixvals = np.clip(self.inp, minval, maxval)
-        pixvals = ((pixvals - minval) / (maxval - minval))*multiplier
+        pixvals = ((pixvals - minval) / (maxval - minval))*self.multiplier
 
         self.outp = pixvals.astype(np.uint8)
 
+        return self.outp
+
 
     def rgbchannel(self):
-        reg = "^r?g?b?$"
-        while(True):
-            print("Input should be a combination of r g and b")
-            self.channel = input("Enter channel composition: ").lower()
+        reg = "^r?g?b?|r?b?g|g?r?b?|g?b?r?|b?r?g?|b?g?r?$"
 
-            if re.search(reg,self.channel):
-                
-                self.outp = np.zeros(self.inp.shape)
+        print("Input should be a combination of r g and b")
+        self.channel = input("Enter channel composition: ").lower()
 
-                if 'r' in self.channel:
-                    self.outp[:,:,0] = self.inp[:,:,0]
-                if 'g' in self.channel:
-                    self.outp[:,:,1] = self.inp[:,:,1]
-                if 'b' in self.channel:
-                    self.outp[:,:,2] = self.inp[:,:,2]
+        if re.search(reg,self.channel):
+            
+            self.outp = np.zeros(self.inp.shape)
 
-                self.outp = self.outp.astype(np.uint8)
-                break
+            if 'r' in self.channel:
+                self.outp[:,:,0] = self.inp[:,:,0]
+            if 'g' in self.channel:
+                self.outp[:,:,1] = self.inp[:,:,1]
+            if 'b' in self.channel:
+                self.outp[:,:,2] = self.inp[:,:,2]
 
-            else:
-                print("Invalid input composition")
+            self.outp = self.outp.astype(np.uint8)
 
+
+        else:
+            print("Invalid input composition")
+
+        return self.outp
+
+
+    def transparency(self):
+        self.outp = np.zeros((self.inp.shape[0],self.inp.shape[1],4)).astype(np.uint8)
+
+        self.percentage = float(input("Enter transparency percentage: "))
+        self.multiplier = int((100-self.percentage)/100 * 255)
+
+        self.outp[:,:,0:3] = self.inp[:,:,0:3]
+        self.outp[:,:,3] = self.multiplier
+
+        return self.outp
+
+
+        
         
 
 

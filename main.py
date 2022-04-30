@@ -41,7 +41,7 @@ def main():
                         obj.loadImg()
                         obj.upscale()
                         print("Saving image")
-                        obj.writeImg('upscaled')
+                        obj.writeImg('upscaled'+f"{obj.factor}x")
                         print("Done")
                         os.system(f"start {sys.argv[3]}")
 
@@ -50,7 +50,7 @@ def main():
                         obj.loadImg()
                         obj.downscale()
                         print("Saving image")
-                        obj.writeImg('downscaled')
+                        obj.writeImg('downscaled'+f"{obj.factor}x")
                         print("Done")
                         os.system(f"start {sys.argv[3]}")
 
@@ -70,7 +70,7 @@ def main():
                         obj.loadImg()
                         obj.rotate()
                         print("Saving image")
-                        obj.writeImg('rotated')
+                        obj.writeImg('rotated_'+f"{obj.ang}")
                         print("Done")
                         os.system(f"start {sys.argv[3]}")
                         
@@ -89,7 +89,7 @@ def main():
                         obj.loadImg()
                         obj.contrast()
                         print("Saving image")
-                        obj.writeImg("contrast")
+                        obj.writeImg("contrast"+f"{obj.multiplier}")
                         print("Done")
                         os.system(f"start {sys.argv[3]}")
 
@@ -102,7 +102,14 @@ def main():
                         print("Done")
                         os.system(f"start {sys.argv[3]}")
                                             
-
+                    elif sys.argv[1]=="transparency":
+                        obj = imageEdit(sys.argv[2],sys.argv[3])
+                        obj.loadImg()
+                        obj.transparency()
+                        print("Saving image")
+                        obj.writeImg("transparency"+f"{obj.percentage}")
+                        print("Done")
+                        os.system(f"start {sys.argv[3]}")
                     else:
                         print("Invalid arguments. Run 'python main.py --help'")
 
