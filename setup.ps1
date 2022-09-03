@@ -36,7 +36,8 @@ pip install -r .\requirements.txt
 
 Write-Output "Creating activate.ps1" | Green
 # to acticvate the virtualenv using autofill instead of entering the directory path given below
-".\.venv\Scripts\activate" > activate.ps1
+"cd `$PSScriptRoot`
+.\.venv\Scripts\activate" > activate.ps1
 # do deactivate the virtualenv just enter deactivate in the terminal
 
 Write-Output "Done" | Green
